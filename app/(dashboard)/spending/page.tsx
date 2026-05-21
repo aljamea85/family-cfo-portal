@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import {
   spendingByCategory,
   topMerchants,
@@ -9,16 +6,19 @@ import {
   restaurantSpendingMonthly,
   cafeSpendingMonthly,
   financialSummary,
+  allTransactions,
 } from "@/lib/mockData";
+import { getBurnRate, getTotalSpend } from "@/lib/transactionEngine";
 
 export default function SpendingAnalysis() {
+  const totalSpend = getTotalSpend(allTransactions);
   const budgetVsActual = {
     budget: financialSummary.monthlyBudget,
-    actual: financialSummary.actualLifestyleSpend,
-    variance: financialSummary.actualLifestyleSpend - financialSummary.monthlyBudget,
+    actual: totalSpend,
+    variance: totalSpend - financialSummary.monthlyBudget,
   };
 
-  const burnRate = (financialSummary.actualLifestyleSpend / monthlyBreakdown.income) * 100;
+  const burnRate = getBurnRate(totalSpend, monthlyBreakdown.income);
 
   return (
     <div className="min-h-screen bg-gray-50">
