@@ -197,6 +197,7 @@ export function buildTransactionFromPreview(preview: ParsedPreviewRow): Transact
     merchant: preview.merchant || "Unknown Merchant",
     amount: preview.amount || 0,
     account: preview.account || "Unassigned",
+    transactionType: "expense",
     category: preview.category ?? defaultTransactionCategory,
     subcategory: preview.subcategory || "",
     notes: preview.notes || "",
@@ -214,7 +215,19 @@ export function buildImportedTransaction(preview: ParsedPreviewRow): ImportedTra
 }
 
 export function getTotalSpend(transactions: Transaction[]): number {
-  return transactions.reduce((sum, transaction) => sum + Math.abs(transaction.amount), 0);
+  return transactions.reduce((sum, transaction) => sum + getBudgetImpact(transaction), 0);
+}
+
+export function getBudgetImpact(transaction: Transaction): number {
+  // user-entered amount is always positive; impact depends on transactionType
+  switch (transaction.transactionType) {
+    case "expense":
+      return Math.abs(transaction.amount);
+    case "refund":
+      return -Math.abs(transaction.amount);
+    default:
+      return 0;
+  }
 }
 
 export function getBurnRate(totalSpend: number, budget: number): number {
@@ -228,7 +241,9 @@ export function getCategoryTotals(transactions: Transaction[]) {
   );
 
   transactions.forEach((transaction) => {
-    totals[transaction.category] = (totals[transaction.category] ?? 0) + Math.abs(transaction.amount);
+    const impact = getBudgetImpact(transaction);
+    if (impact === 0) return;
+    totals[transaction.category] = (totals[transaction.category] ?? 0) + Math.max(0, impact);
   });
 
   const totalSpend = getTotalSpend(transactions);
@@ -247,8 +262,10 @@ export function getTopMerchants(transactions: Transaction[], limit = 8) {
   const totals: Record<string, { amount: number; count: number }> = {};
   transactions.forEach((transaction) => {
     const merchant = transaction.merchant || "Unknown";
+    const impact = getBudgetImpact(transaction);
+    if (impact === 0) return;
     totals[merchant] = totals[merchant] || { amount: 0, count: 0 };
-    totals[merchant].amount += Math.abs(transaction.amount);
+    totals[merchant].amount += Math.max(0, impact);
     totals[merchant].count += 1;
   });
 
@@ -276,9 +293,12 @@ export function getMonthlySpendingTrend(transactions: Transaction[], months = 12
       return;
     }
 
+    const impact = getBudgetImpact(transaction);
+    if (impact === 0) return;
+
     const label = date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
     if (label in monthBuckets) {
-      monthBuckets[label] += Math.abs(transaction.amount);
+      monthBuckets[label] += Math.max(0, impact);
     }
   });
 

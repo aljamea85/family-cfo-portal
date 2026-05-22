@@ -28,6 +28,7 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState<typeof categories[number]>("Delivery");
   const [account, setAccount] = useState(accounts[0]);
+  const [transactionType, setTransactionType] = useState<"expense" | "income" | "transfer" | "investment" | "refund">("expense");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
 
@@ -46,6 +47,7 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
       merchant: merchant.trim(),
       amount: Number(amount),
       account,
+      transactionType,
       category: category as Transaction["category"],
       subcategory: "",
       notes: notes.trim(),
@@ -126,6 +128,21 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
                 {value}
               </option>
             ))}
+          </select>
+        </label>
+
+        <label className="space-y-2">
+          <span className="text-sm font-medium text-gray-700">Transaction Type</span>
+          <select
+            value={transactionType}
+            onChange={(e) => setTransactionType(e.target.value as any)}
+            className="w-full rounded-lg border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          >
+            <option value="expense">Expense</option>
+            <option value="income">Income</option>
+            <option value="transfer">Transfer</option>
+            <option value="investment">Investment</option>
+            <option value="refund">Refund</option>
           </select>
         </label>
 

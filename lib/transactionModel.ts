@@ -19,6 +19,7 @@ export interface Transaction {
   amount: number;
   account: string;
   category: TransactionCategory;
+  transactionType: "expense" | "income" | "transfer" | "investment" | "refund";
   subcategory: string;
   notes: string;
   description: string;

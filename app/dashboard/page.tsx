@@ -2,6 +2,7 @@ import DashboardMetrics from "@/app/components/DashboardMetrics";
 import SpendingTrendChart from "@/app/components/SpendingTrendChart";
 import SpendingByCategoryChart from "@/app/components/SpendingByCategoryChart";
 import TopMerchantsChart from "@/app/components/TopMerchantsChart";
+import KeyMetrics from "@/app/components/KeyMetrics";
 
 export default function DashboardPage() {
   return (
@@ -29,27 +30,7 @@ export default function DashboardPage() {
               <TopMerchantsChart />
             </div>
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-                <h2 className="text-lg font-semibold text-gray-900 mb-6">Key Metrics</h2>
-                <ul className="space-y-4 text-sm text-gray-700">
-                  <li className="flex items-start">
-                    <span className="text-blue-600 font-bold mr-3">•</span>
-                    <span><strong>Budget Status:</strong> 190% over target</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-orange-600 font-bold mr-3">•</span>
-                    <span><strong>Top Spender:</strong> Food delivery (18.5%)</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-green-600 font-bold mr-3">•</span>
-                    <span><strong>Retirement Fund:</strong> AED 487.5K</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="text-emerald-600 font-bold mr-3">•</span>
-                    <span><strong>Children Fund:</strong> AED 125K</span>
-                  </li>
-                </ul>
-              </div>
+              <KeyMetrics />
             </div>
           </div>
         </section>

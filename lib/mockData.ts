@@ -71,16 +71,16 @@ export const financialSummary = {
 
 // Recent Transactions (May 2026)
 export const recentTransactions: Transaction[] = [
-  { id: "1", date: "2026-05-20", merchant: "Deliveroo", category: "Deliveroo/Talabat", amount: 185, account: "Credit Card", subcategory: "Delivery", notes: "Dinner delivery", description: "Dinner delivery", confidence: 95, tags: ["food", "delivery"] },
-  { id: "2", date: "2026-05-20", merchant: "Carrefour", category: "Groceries", amount: 420, account: "Debit Card", subcategory: "Supermarket", notes: "Weekly groceries", description: "Weekly groceries", confidence: 92, tags: ["groceries"] },
-  { id: "3", date: "2026-05-19", merchant: "Emirates Golf Club", category: "Restaurants", amount: 520, account: "Credit Card", subcategory: "Dining", notes: "Lunch", description: "Lunch", confidence: 88, tags: ["dining"] },
-  { id: "4", date: "2026-05-19", merchant: "Talabat", category: "Deliveroo/Talabat", amount: 240, account: "Credit Card", subcategory: "Delivery", notes: "Breakfast delivery", description: "Breakfast delivery", confidence: 95, tags: ["food", "delivery"] },
-  { id: "5", date: "2026-05-18", merchant: "ENOC", category: "Fuel", amount: 180, account: "Debit Card", subcategory: "Petrol", notes: "Fuel", description: "Fuel", confidence: 100, tags: ["transport"] },
-  { id: "6", date: "2026-05-18", merchant: "Bloomingdale's", category: "Shopping", amount: 1250, account: "Credit Card", subcategory: "Retail", notes: "Clothing", description: "Clothing", confidence: 90, tags: ["shopping"] },
-  { id: "7", date: "2026-05-17", merchant: "Café Bateel", category: "Cafés", amount: 65, account: "Credit Card", subcategory: "Coffee", notes: "Coffee", description: "Coffee", confidence: 90, tags: ["coffee"] },
-  { id: "8", date: "2026-05-17", merchant: "Deliveroo", category: "Deliveroo/Talabat", amount: 210, account: "Credit Card", subcategory: "Delivery", notes: "Dinner delivery", description: "Dinner delivery", confidence: 95, tags: ["food", "delivery"] },
-  { id: "9", date: "2026-05-16", merchant: "American Hospital Dubai", category: "Miscellaneous", amount: 340, account: "Credit Card", subcategory: "Medical", notes: "Medical consultation", description: "Medical consultation", confidence: 80, tags: ["health"] },
-  { id: "10", date: "2026-05-16", merchant: "Al Reef Bakery", category: "Restaurants", amount: 85, account: "Cash", subcategory: "Breakfast", notes: "Lunch", description: "Lunch", confidence: 88, tags: ["food"] },
+  { id: "1", date: "2026-05-20", merchant: "Deliveroo", category: "Deliveroo/Talabat", transactionType: "expense", amount: 185, account: "Credit Card", subcategory: "Delivery", notes: "Dinner delivery", description: "Dinner delivery", confidence: 95, tags: ["food", "delivery"] },
+  { id: "2", date: "2026-05-20", merchant: "Carrefour", category: "Groceries", transactionType: "expense", amount: 420, account: "Debit Card", subcategory: "Supermarket", notes: "Weekly groceries", description: "Weekly groceries", confidence: 92, tags: ["groceries"] },
+  { id: "3", date: "2026-05-19", merchant: "Emirates Golf Club", category: "Restaurants", transactionType: "expense", amount: 520, account: "Credit Card", subcategory: "Dining", notes: "Lunch", description: "Lunch", confidence: 88, tags: ["dining"] },
+  { id: "4", date: "2026-05-19", merchant: "Talabat", category: "Deliveroo/Talabat", transactionType: "expense", amount: 240, account: "Credit Card", subcategory: "Delivery", notes: "Breakfast delivery", description: "Breakfast delivery", confidence: 95, tags: ["food", "delivery"] },
+  { id: "5", date: "2026-05-18", merchant: "ENOC", category: "Fuel", transactionType: "expense", amount: 180, account: "Debit Card", subcategory: "Petrol", notes: "Fuel", description: "Fuel", confidence: 100, tags: ["transport"] },
+  { id: "6", date: "2026-05-18", merchant: "Bloomingdale's", category: "Shopping", transactionType: "expense", amount: 1250, account: "Credit Card", subcategory: "Retail", notes: "Clothing", description: "Clothing", confidence: 90, tags: ["shopping"] },
+  { id: "7", date: "2026-05-17", merchant: "Café Bateel", category: "Cafés", transactionType: "expense", amount: 65, account: "Credit Card", subcategory: "Coffee", notes: "Coffee", description: "Coffee", confidence: 90, tags: ["coffee"] },
+  { id: "8", date: "2026-05-17", merchant: "Deliveroo", category: "Deliveroo/Talabat", transactionType: "expense", amount: 210, account: "Credit Card", subcategory: "Delivery", notes: "Dinner delivery", description: "Dinner delivery", confidence: 95, tags: ["food", "delivery"] },
+  { id: "9", date: "2026-05-16", merchant: "American Hospital Dubai", category: "Miscellaneous", transactionType: "expense", amount: 340, account: "Credit Card", subcategory: "Medical", notes: "Medical consultation", description: "Medical consultation", confidence: 80, tags: ["health"] },
+  { id: "10", date: "2026-05-16", merchant: "Al Reef Bakery", category: "Restaurants", transactionType: "expense", amount: 85, account: "Cash", subcategory: "Breakfast", notes: "Lunch", description: "Lunch", confidence: 88, tags: ["food"] },
 ];
 
 // Retirement Fund Ledger (Last 10 entries)
@@ -182,11 +182,11 @@ export const childrenAllocation: PortfolioAllocation[] = [
 
 // Imported Transactions (for Transaction Import section)
 export const importedTransactions: ImportedTransaction[] = [
-  { id: "imp1", date: "2026-05-21", merchant: "Deliveroo", category: "Deliveroo/Talabat", amount: 165, description: "Dinner", account: "Credit Card", confidence: 95, status: "pending", subcategory: "", notes: "", tags: [] },
-  { id: "imp2", date: "2026-05-21", merchant: "ENOC Fuel", category: "Fuel", amount: 175, description: "Fuel", account: "Debit Card", confidence: 100, status: "pending", subcategory: "", notes: "", tags: [] },
-  { id: "imp3", date: "2026-05-20", merchant: "Spinneys", category: "Groceries", amount: 380, description: "Weekly groceries", account: "Credit Card", confidence: 85, status: "pending", subcategory: "", notes: "", tags: [] },
-  { id: "imp4", date: "2026-05-20", merchant: "MMI Insurance", category: "Miscellaneous", amount: 450, description: "Car insurance", account: "Direct Debit", confidence: 100, status: "pending", subcategory: "", notes: "", tags: [] },
-  { id: "imp5", date: "2026-05-19", merchant: "Empower Telecom", category: "Miscellaneous", amount: 199, description: "Internet bill", account: "Credit Card", confidence: 100, status: "pending", subcategory: "", notes: "", tags: [] },
+  { id: "imp1", date: "2026-05-21", merchant: "Deliveroo", category: "Deliveroo/Talabat", transactionType: "expense", amount: 165, description: "Dinner", account: "Credit Card", confidence: 95, status: "pending", subcategory: "", notes: "", tags: [] },
+  { id: "imp2", date: "2026-05-21", merchant: "ENOC Fuel", category: "Fuel", transactionType: "expense", amount: 175, description: "Fuel", account: "Debit Card", confidence: 100, status: "pending", subcategory: "", notes: "", tags: [] },
+  { id: "imp3", date: "2026-05-20", merchant: "Spinneys", category: "Groceries", transactionType: "expense", amount: 380, description: "Weekly groceries", account: "Credit Card", confidence: 85, status: "pending", subcategory: "", notes: "", tags: [] },
+  { id: "imp4", date: "2026-05-20", merchant: "MMI Insurance", category: "Miscellaneous", transactionType: "expense", amount: 450, description: "Car insurance", account: "Direct Debit", confidence: 100, status: "pending", subcategory: "", notes: "", tags: [] },
+  { id: "imp5", date: "2026-05-19", merchant: "Empower Telecom", category: "Miscellaneous", transactionType: "expense", amount: 199, description: "Internet bill", account: "Credit Card", confidence: 100, status: "pending", subcategory: "", notes: "", tags: [] },
 ];
 
 // Insights Cards Data
@@ -244,11 +244,15 @@ export const insights: Insight[] = [
 // Additional transaction history for spending analysis
 export const extendedTransactions: Transaction[] = [
   ...recentTransactions,
-  { id: "11", date: "2026-05-15", merchant: "Talabat", category: "Deliveroo/Talabat", amount: 155, account: "Credit Card", subcategory: "Delivery", notes: "Lunch delivery", description: "Lunch delivery", confidence: 92, tags: ["food", "delivery"] },
-  { id: "12", date: "2026-05-15", merchant: "Starbucks", category: "Cafés", amount: 45, account: "Credit Card", subcategory: "Coffee", notes: "Coffee", description: "Coffee", confidence: 90, tags: ["coffee"] },
-  { id: "13", date: "2026-05-14", merchant: "Noon.com", category: "Shopping", amount: 280, account: "Credit Card", subcategory: "Online", notes: "Electronics", description: "Electronics", confidence: 93, tags: ["shopping"] },
-  { id: "14", date: "2026-05-14", merchant: "Zomato", category: "Restaurants", amount: 420, account: "Credit Card", subcategory: "Dining", notes: "Dinner with family", description: "Dinner with family", confidence: 90, tags: ["food"] },
-  { id: "15", date: "2026-05-13", merchant: "Dubai Mall", category: "Shopping", amount: 890, account: "Credit Card", subcategory: "Retail", notes: "Clothing and shoes", description: "Clothing and shoes", confidence: 95, tags: ["shopping"] },
+  { id: "11", date: "2026-05-15", merchant: "Talabat", category: "Deliveroo/Talabat", transactionType: "expense", amount: 155, account: "Credit Card", subcategory: "Delivery", notes: "Lunch delivery", description: "Lunch delivery", confidence: 92, tags: ["food", "delivery"] },
+  { id: "12", date: "2026-05-15", merchant: "Starbucks", category: "Cafés", transactionType: "expense", amount: 45, account: "Credit Card", subcategory: "Coffee", notes: "Coffee", description: "Coffee", confidence: 90, tags: ["coffee"] },
+  { id: "13", date: "2026-05-14", merchant: "Noon.com", category: "Shopping", transactionType: "expense", amount: 280, account: "Credit Card", subcategory: "Online", notes: "Electronics", description: "Electronics", confidence: 93, tags: ["shopping"] },
+  { id: "14", date: "2026-05-14", merchant: "Zomato", category: "Restaurants", transactionType: "expense", amount: 420, account: "Credit Card", subcategory: "Dining", notes: "Dinner with family", description: "Dinner with family", confidence: 90, tags: ["food"] },
+  { id: "11", date: "2026-05-15", merchant: "Talabat", category: "Deliveroo/Talabat", transactionType: "expense", amount: 155, account: "Credit Card", subcategory: "Delivery", notes: "Lunch delivery", description: "Lunch delivery", confidence: 92, tags: ["food", "delivery"] },
+  { id: "12", date: "2026-05-15", merchant: "Starbucks", category: "Cafés", transactionType: "expense", amount: 45, account: "Credit Card", subcategory: "Coffee", notes: "Coffee", description: "Coffee", confidence: 90, tags: ["coffee"] },
+  { id: "13", date: "2026-05-14", merchant: "Noon.com", category: "Shopping", transactionType: "expense", amount: 280, account: "Credit Card", subcategory: "Online", notes: "Electronics", description: "Electronics", confidence: 93, tags: ["shopping"] },
+  { id: "14", date: "2026-05-14", merchant: "Zomato", category: "Restaurants", transactionType: "expense", amount: 420, account: "Credit Card", subcategory: "Dining", notes: "Dinner with family", description: "Dinner with family", confidence: 90, tags: ["food"] },
+  { id: "15", date: "2026-05-13", merchant: "Dubai Mall", category: "Shopping", transactionType: "expense", amount: 890, account: "Credit Card", subcategory: "Retail", notes: "Clothing and shoes", description: "Clothing and shoes", confidence: 95, tags: ["shopping"] },
 ];
 
 export const allTransactions: Transaction[] = extendedTransactions;

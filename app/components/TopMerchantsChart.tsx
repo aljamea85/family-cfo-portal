@@ -1,7 +1,12 @@
-import { topMerchants } from "@/lib/mockData";
+"use client";
+
+import useTransactions from "@/app/hooks/useTransactions";
+import { getTopMerchants } from "@/lib/transactionEngine";
 
 export default function TopMerchantsChart() {
-  const maxAmount = Math.max(...topMerchants.map(m => m.amount));
+  const { transactions } = useTransactions();
+  const topMerchants = getTopMerchants(transactions, 8);
+  const maxAmount = topMerchants.length ? Math.max(...topMerchants.map((m) => m.amount)) : 0;
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">

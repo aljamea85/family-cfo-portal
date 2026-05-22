@@ -32,7 +32,19 @@ export function calculateBudgetMonthStats(
   referenceDate = new Date()
 ): BudgetMonthStats {
   const monthTransactions = getCurrentMonthTransactions(transactions, referenceDate);
-  const actualSpent = monthTransactions.reduce((sum, txn) => sum + Math.abs(txn.amount), 0);
+  const actualSpent = monthTransactions.reduce((sum, txn) => {
+    const amount = Math.abs(txn.amount);
+
+    if (txn.transactionType === "expense") {
+      return sum + amount;
+    }
+
+    if (txn.transactionType === "refund") {
+      return sum - amount;
+    }
+
+    return sum;
+  }, 0);
   const today = new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate());
   const daysElapsed = today.getDate();
   const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
@@ -41,7 +53,7 @@ export function calculateBudgetMonthStats(
   const actualDailyBurn = daysElapsed === 0 ? 0 : actualSpent / daysElapsed;
   const projectedMonthEndSpend = actualDailyBurn * daysInMonth;
   const projectedOverspend = projectedMonthEndSpend - monthlyBudget;
-  const remainingSafeToSpend = monthlyBudget - projectedMonthEndSpend;
+  const remainingSafeToSpend = Math.max(0, monthlyBudget - actualSpent);
   const dailyAllowedSpend = remainingDays > 0 ? remainingBudget / remainingDays : 0;
 
   return {

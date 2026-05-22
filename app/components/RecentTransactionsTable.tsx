@@ -2,6 +2,7 @@
 
 import { Transaction } from "@/lib/transactionModel";
 import { recentTransactions } from "@/lib/mockData";
+import { getTotalSpend } from "@/lib/transactionEngine";
 
 interface RecentTransactionsTableProps {
   transactions?: Transaction[];
@@ -9,7 +10,7 @@ interface RecentTransactionsTableProps {
 
 export default function RecentTransactionsTable({ transactions }: RecentTransactionsTableProps) {
   const list = transactions && transactions.length > 0 ? transactions : recentTransactions;
-  const total = list.reduce((sum, transaction) => sum + transaction.amount, 0);
+  const total = getTotalSpend(list);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
@@ -41,7 +42,15 @@ export default function RecentTransactionsTable({ transactions }: RecentTransact
                 <td className="px-6 py-4 text-sm text-gray-900 font-medium">{transaction.merchant}</td>
                 <td className="px-6 py-4 text-sm text-gray-600">{transaction.category}</td>
                 <td className="px-6 py-4 text-sm text-gray-600">{transaction.description}</td>
-                <td className="px-6 py-4 text-sm font-semibold text-gray-900 text-right">AED {transaction.amount.toLocaleString()}</td>
+                <td className="px-6 py-4 text-sm font-semibold text-gray-900 text-right">
+                  {transaction.transactionType === "refund" ? (
+                    <>AED -{transaction.amount.toLocaleString()}</>
+                  ) : transaction.transactionType === "income" ? (
+                    <>AED +{transaction.amount.toLocaleString()}</>
+                  ) : (
+                    <>AED {transaction.amount.toLocaleString()}</>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

@@ -1,9 +1,14 @@
-import { monthlySpendingTrend } from "@/lib/mockData";
+"use client";
+
+import useTransactions from "@/app/hooks/useTransactions";
+import { getMonthlySpendingTrend } from "@/lib/transactionEngine";
 
 export default function SpendingTrendChart() {
-  const minValue = Math.min(...monthlySpendingTrend.map(d => d.amount));
-  const maxValue = Math.max(...monthlySpendingTrend.map(d => d.amount));
-  const range = maxValue - minValue;
+  const { transactions } = useTransactions();
+  const monthlySpendingTrend = getMonthlySpendingTrend(transactions, 12);
+  const minValue = monthlySpendingTrend.length ? Math.min(...monthlySpendingTrend.map((d) => d.amount)) : 0;
+  const maxValue = monthlySpendingTrend.length ? Math.max(...monthlySpendingTrend.map((d) => d.amount)) : 0;
+  const range = Math.max(1, maxValue - minValue);
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">

@@ -1,9 +1,14 @@
-import { spendingByCategory } from "@/lib/mockData";
+"use client";
+
+import useTransactions from "@/app/hooks/useTransactions";
+import { getCategoryTotals } from "@/lib/transactionEngine";
 
 export default function SpendingByCategoryChart() {
-  // Get top 8 categories for visibility
-  const topCategories = spendingByCategory.slice(0, 8);
-  const maxAmount = Math.max(...topCategories.map(c => c.amount));
+  const { transactions } = useTransactions();
+  // compute categories from current transactions
+  const categories = getCategoryTotals(transactions);
+  const topCategories = categories.slice(0, 8);
+  const maxAmount = topCategories.length ? Math.max(...topCategories.map((c) => c.amount)) : 0;
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
