@@ -1,21 +1,31 @@
+"use client";
+
+import { getTotalSpend } from "@/lib/transactionEngine";
+import { DEFAULT_MONTHLY_BUDGET } from "@/lib/budgetEngine";
+import { Transaction } from "@/lib/transactionModel";
 import { financialSummary } from "@/lib/mockData";
 
-export default function OverviewCards() {
-  const overspend = financialSummary.actualLifestyleSpend - financialSummary.monthlyBudget;
+interface OverviewCardsProps {
+  transactions: Transaction[];
+}
+
+export default function OverviewCards({ transactions }: OverviewCardsProps) {
+  const actualSpend = getTotalSpend(transactions);
+  const overspend = actualSpend - DEFAULT_MONTHLY_BUDGET;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
       {/* Monthly Budget Card */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <p className="text-gray-600 text-sm font-medium mb-2">Monthly Lifestyle Budget</p>
-        <p className="text-2xl font-bold text-gray-900">AED {financialSummary.monthlyBudget.toLocaleString()}</p>
+        <p className="text-2xl font-bold text-gray-900">AED {DEFAULT_MONTHLY_BUDGET.toLocaleString()}</p>
         <p className="text-xs text-gray-500 mt-2">Q2 2026 allocation</p>
       </div>
 
       {/* Actual Spend Card */}
       <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <p className="text-gray-600 text-sm font-medium mb-2">Actual Lifestyle Spend</p>
-        <p className="text-2xl font-bold text-gray-900">AED {financialSummary.actualLifestyleSpend.toLocaleString()}</p>
+        <p className="text-2xl font-bold text-gray-900">AED {actualSpend.toLocaleString()}</p>
         <p className="text-xs text-gray-500 mt-2">This month</p>
       </div>
 
@@ -23,7 +33,7 @@ export default function OverviewCards() {
       <div className="bg-white rounded-lg border border-red-200 bg-red-50 p-6 shadow-sm">
         <p className="text-red-600 text-sm font-medium mb-2">Overspend</p>
         <p className="text-2xl font-bold text-red-700">AED {overspend.toLocaleString()}</p>
-        <p className="text-xs text-red-500 mt-2">{((overspend / financialSummary.monthlyBudget) * 100).toFixed(0)}% over budget</p>
+        <p className="text-xs text-red-500 mt-2">{((overspend / DEFAULT_MONTHLY_BUDGET) * 100).toFixed(0)}% over budget</p>
       </div>
 
       {/* Retirement Portfolio Card */}

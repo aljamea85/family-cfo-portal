@@ -1,8 +1,7 @@
-import OverviewCards from "@/app/components/OverviewCards";
+import DashboardMetrics from "@/app/components/DashboardMetrics";
 import SpendingTrendChart from "@/app/components/SpendingTrendChart";
 import SpendingByCategoryChart from "@/app/components/SpendingByCategoryChart";
 import TopMerchantsChart from "@/app/components/TopMerchantsChart";
-import RecentTransactionsTable from "@/app/components/RecentTransactionsTable";
 
 export default function DashboardPage() {
   return (
@@ -17,12 +16,10 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Overview Cards Section */}
         <section className="mb-12">
-          <OverviewCards />
+          <DashboardMetrics />
         </section>
 
-        {/* Charts Section */}
         <section className="mb-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1">
@@ -57,14 +54,8 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Spending Trend Chart */}
         <section className="mb-12">
           <SpendingTrendChart />
-        </section>
-
-        {/* Transactions Table */}
-        <section className="mb-12">
-          <RecentTransactionsTable />
         </section>
       </main>
     </div>

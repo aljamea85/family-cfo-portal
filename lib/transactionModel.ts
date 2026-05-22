@@ -1,5 +1,6 @@
 export type TransactionCategory =
   | "Deliveroo/Talabat"
+  | "Delivery"
   | "Restaurants"
   | "Cafés"
   | "Groceries"
@@ -7,6 +8,7 @@ export type TransactionCategory =
   | "Shopping"
   | "Family"
   | "Charity"
+  | "Health"
   | "Investments"
   | "Miscellaneous";
 
@@ -30,6 +32,7 @@ export interface ImportedTransaction extends Transaction {
 
 export const transactionCategories: TransactionCategory[] = [
   "Deliveroo/Talabat",
+  "Delivery",
   "Restaurants",
   "Cafés",
   "Groceries",
@@ -37,6 +40,7 @@ export const transactionCategories: TransactionCategory[] = [
   "Shopping",
   "Family",
   "Charity",
+  "Health",
   "Investments",
   "Miscellaneous",
 ];

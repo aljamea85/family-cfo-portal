@@ -1,6 +1,16 @@
+"use client";
+
+import { Transaction } from "@/lib/transactionModel";
 import { recentTransactions } from "@/lib/mockData";
 
-export default function RecentTransactionsTable() {
+interface RecentTransactionsTableProps {
+  transactions?: Transaction[];
+}
+
+export default function RecentTransactionsTable({ transactions }: RecentTransactionsTableProps) {
+  const list = transactions && transactions.length > 0 ? transactions : recentTransactions;
+  const total = list.reduce((sum, transaction) => sum + transaction.amount, 0);
+
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
       <div className="px-6 py-4 border-b border-gray-200">
@@ -19,7 +29,7 @@ export default function RecentTransactionsTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
-            {recentTransactions.map((transaction) => (
+            {list.map((transaction) => (
               <tr key={transaction.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 text-sm text-gray-900 font-medium">
                   {new Date(transaction.date).toLocaleDateString("en-US", {
@@ -40,8 +50,8 @@ export default function RecentTransactionsTable() {
       
       <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
         <p className="text-sm text-gray-600">
-          <span className="font-semibold text-gray-900">Total (last 10 transactions):</span>{" "}
-          AED {recentTransactions.reduce((sum, t) => sum + t.amount, 0).toLocaleString()}
+          <span className="font-semibold text-gray-900">Total (last {list.length} transactions):</span>{" "}
+          AED {total.toLocaleString()}
         </p>
       </div>
     </div>
