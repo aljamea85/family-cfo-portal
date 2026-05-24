@@ -11,7 +11,12 @@ interface OverviewCardsProps {
 
 export default function OverviewCards({ transactions }: OverviewCardsProps) {
   const actualSpend = getTotalSpend(transactions);
-  const overspend = actualSpend - DEFAULT_MONTHLY_BUDGET;
+  const budgetVariance = DEFAULT_MONTHLY_BUDGET - actualSpend;
+  const isUnderOrOnBudget = budgetVariance >= 0;
+  const varianceColor = isUnderOrOnBudget ? "text-green-700" : "text-red-700";
+  const varianceBg = isUnderOrOnBudget ? "bg-green-100" : "bg-red-100";
+  const varianceSign = budgetVariance > 0 ? "+" : budgetVariance < 0 ? "-" : "";
+  const absVariance = Math.abs(budgetVariance);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
@@ -29,11 +34,11 @@ export default function OverviewCards({ transactions }: OverviewCardsProps) {
         <p className="text-xs text-gray-500 mt-2">This month</p>
       </div>
 
-      {/* Overspend Card */}
-      <div className="bg-white rounded-lg border border-red-200 bg-red-50 p-6 shadow-sm">
-        <p className="text-red-600 text-sm font-medium mb-2">Overspend</p>
-        <p className="text-2xl font-bold text-red-700">AED {overspend.toLocaleString()}</p>
-        <p className="text-xs text-red-500 mt-2">{((overspend / DEFAULT_MONTHLY_BUDGET) * 100).toFixed(0)}% over budget</p>
+      {/* Budget Variance Card */}
+      <div className={`bg-white rounded-lg border p-6 shadow-sm ${varianceBg}`}>
+        <p className={`text-sm font-medium mb-2 ${varianceColor}`}>Budget Variance</p>
+        <p className={`text-2xl font-bold ${varianceColor}`}>{varianceSign}AED {absVariance.toLocaleString()}</p>
+        <p className={`text-xs mt-2 ${varianceColor}`}>{isUnderOrOnBudget ? "Under budget" : "Over budget"}</p>
       </div>
 
       {/* Retirement Portfolio Card */}

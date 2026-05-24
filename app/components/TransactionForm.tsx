@@ -3,18 +3,47 @@
 import { FormEvent, useState } from "react";
 import { Transaction } from "@/lib/transactionModel";
 
-const categories = [
-  "Delivery",
-  "Restaurants",
-  "Cafés",
-  "Groceries",
-  "Fuel",
-  "Shopping",
-  "Family",
-  "Charity",
-  "Health",
-  "Miscellaneous",
-] as const;
+const categoriesByType: Record<Transaction["transactionType"], Transaction["category"][]> = {
+  expense: [
+    "Delivery",
+    "Restaurants",
+    "Cafés",
+    "Groceries",
+    "Fuel",
+    "Shopping",
+    "Family",
+    "Charity",
+    "Health",
+    "Miscellaneous",
+  ],
+  income: [
+    "Salary",
+    "Bonus",
+    "Family Transfer In",
+    "Reimbursement",
+    "Other Income",
+  ],
+  transfer: [
+    "Internal Transfer",
+    "Sinking Fund Transfer",
+    "Bank Transfer",
+    "Cash Movement",
+  ],
+  investment: [
+    "Retirement Contribution",
+    "Children Fund Contribution",
+    "SPUS",
+    "Gold",
+    "Bitcoin",
+    "Other Investment",
+  ],
+  refund: [
+    "Delivery Refund",
+    "Retail Refund",
+    "Bank Reversal",
+    "Other Refund",
+  ],
+};
 
 const accounts = ["Cash", "Credit Card", "Debit Card", "Other"];
 
@@ -26,9 +55,9 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [merchant, setMerchant] = useState("");
   const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState<typeof categories[number]>("Delivery");
+  const [transactionType, setTransactionType] = useState<Transaction["transactionType"]>("expense");
+  const [category, setCategory] = useState<Transaction["category"]>(categoriesByType.expense[0]);
   const [account, setAccount] = useState(accounts[0]);
-  const [transactionType, setTransactionType] = useState<"expense" | "income" | "transfer" | "investment" | "refund">("expense");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
 
@@ -105,10 +134,10 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
           <span className="text-sm font-medium text-gray-700">Category</span>
           <select
             value={category}
-            onChange={(event) => setCategory(event.target.value as typeof categories[number])}
+            onChange={(event) => setCategory(event.target.value as Transaction["category"])}
             className="w-full rounded-lg border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
-            {categories.map((value) => (
+            {categoriesByType[transactionType].map((value) => (
               <option key={value} value={value}>
                 {value}
               </option>
@@ -135,7 +164,11 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
           <span className="text-sm font-medium text-gray-700">Transaction Type</span>
           <select
             value={transactionType}
-            onChange={(e) => setTransactionType(e.target.value as any)}
+            onChange={(e) => {
+              const nextType = e.target.value as Transaction["transactionType"];
+              setTransactionType(nextType);
+              setCategory(categoriesByType[nextType][0] as Transaction["category"]);
+            }}
             className="w-full rounded-lg border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
           >
             <option value="expense">Expense</option>

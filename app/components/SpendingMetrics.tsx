@@ -42,6 +42,14 @@ export default function SpendingMetrics() {
         remainingSafeToSpend: DEFAULT_MONTHLY_BUDGET,
       };
 
+  // Unified budget variance logic
+  const budgetVariance = monthlyBudget - actualSpent;
+  const isUnderOrOnBudget = budgetVariance >= 0;
+  const varianceColor = isUnderOrOnBudget ? "text-green-700" : "text-red-700";
+  const varianceBg = isUnderOrOnBudget ? "bg-green-100" : "bg-red-100";
+  const varianceSign = budgetVariance > 0 ? "+" : budgetVariance < 0 ? "-" : "";
+  const absVariance = Math.abs(budgetVariance);
+
   return (
     <div className="space-y-8">
       <section className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
@@ -59,9 +67,14 @@ export default function SpendingMetrics() {
               <p className="text-xs uppercase tracking-wide text-slate-500">Spent</p>
               <p className="mt-2 text-xl font-semibold text-slate-900">AED {actualSpent.toLocaleString()}</p>
             </div>
-            <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
-              <p className="text-xs uppercase tracking-wide text-slate-500">Remaining</p>
-              <p className="mt-2 text-xl font-semibold text-slate-900">AED {remainingBudget.toLocaleString()}</p>
+            <div className={`rounded-2xl p-4 text-sm font-semibold ${varianceBg} ${varianceColor}`}>
+              <p className="text-xs uppercase tracking-wide">Budget Variance</p>
+              <p className="mt-2 text-xl">
+                {varianceSign}AED {absVariance.toLocaleString()}
+              </p>
+              <p className="text-xs mt-1">
+                {isUnderOrOnBudget ? "Under budget" : "Over budget"}
+              </p>
             </div>
             <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
               <p className="text-xs uppercase tracking-wide text-slate-500">Days elapsed</p>

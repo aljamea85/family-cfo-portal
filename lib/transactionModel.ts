@@ -9,8 +9,26 @@ export type TransactionCategory =
   | "Family"
   | "Charity"
   | "Health"
-  | "Investments"
-  | "Miscellaneous";
+  | "Miscellaneous"
+  | "Salary"
+  | "Bonus"
+  | "Family Transfer In"
+  | "Reimbursement"
+  | "Other Income"
+  | "Internal Transfer"
+  | "Sinking Fund Transfer"
+  | "Bank Transfer"
+  | "Cash Movement"
+  | "Retirement Contribution"
+  | "Children Fund Contribution"
+  | "SPUS"
+  | "Gold"
+  | "Bitcoin"
+  | "Other Investment"
+  | "Delivery Refund"
+  | "Retail Refund"
+  | "Bank Reversal"
+  | "Other Refund";
 
 export interface Transaction {
   id: string;
@@ -42,8 +60,26 @@ export const transactionCategories: TransactionCategory[] = [
   "Family",
   "Charity",
   "Health",
-  "Investments",
   "Miscellaneous",
+  "Salary",
+  "Bonus",
+  "Family Transfer In",
+  "Reimbursement",
+  "Other Income",
+  "Internal Transfer",
+  "Sinking Fund Transfer",
+  "Bank Transfer",
+  "Cash Movement",
+  "Retirement Contribution",
+  "Children Fund Contribution",
+  "SPUS",
+  "Gold",
+  "Bitcoin",
+  "Other Investment",
+  "Delivery Refund",
+  "Retail Refund",
+  "Bank Reversal",
+  "Other Refund",
 ];
 
 export const merchantAutoCategories: Record<string, TransactionCategory> = {
