@@ -13,36 +13,37 @@ export default function RecentTransactionsTable({ transactions }: RecentTransact
   const total = getTotalSpend(list);
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Recent Transactions</h2>
+    <div className="overflow-hidden rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(10,14,20,0.96))]">
+      <div className="border-b border-white/10 px-6 py-5">
+        <p className="text-[0.68rem] uppercase tracking-[0.35em] text-slate-400">Transactions</p>
+        <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-50">Recent activity</h2>
       </div>
-      
+
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+        <table className="w-full text-sm">
+          <thead className="bg-white/[0.02] text-slate-300">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Date</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Merchant</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Category</th>
-              <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">Description</th>
-              <th className="px-6 py-3 text-right text-xs font-semibold text-gray-700 uppercase tracking-wide">Amount</th>
+              <th className="px-6 py-3 text-left text-[0.7rem] uppercase tracking-[0.24em]">Date</th>
+              <th className="px-6 py-3 text-left text-[0.7rem] uppercase tracking-[0.24em]">Merchant</th>
+              <th className="px-6 py-3 text-left text-[0.7rem] uppercase tracking-[0.24em]">Category</th>
+              <th className="px-6 py-3 text-left text-[0.7rem] uppercase tracking-[0.24em]">Description</th>
+              <th className="px-6 py-3 text-right text-[0.7rem] uppercase tracking-[0.24em]">Amount</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-white/10">
             {list.map((transaction) => (
-              <tr key={transaction.id} className="hover:bg-gray-50 transition-colors">
-                <td className="px-6 py-4 text-sm text-gray-900 font-medium">
+              <tr key={transaction.id} className="transition-colors hover:bg-white/[0.02]">
+                <td className="px-6 py-4 font-medium text-slate-50">
                   {new Date(transaction.date).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
                     year: "numeric",
                   })}
                 </td>
-                <td className="px-6 py-4 text-sm text-gray-900 font-medium">{transaction.merchant}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{transaction.category}</td>
-                <td className="px-6 py-4 text-sm text-gray-600">{transaction.description}</td>
-                <td className="px-6 py-4 text-sm font-semibold text-gray-900 text-right">
+                <td className="px-6 py-4 text-slate-100">{transaction.merchant}</td>
+                <td className="px-6 py-4 text-slate-300">{transaction.category}</td>
+                <td className="px-6 py-4 text-slate-300">{transaction.description}</td>
+                <td className="px-6 py-4 text-right font-semibold text-slate-50">
                   {transaction.transactionType === "refund" ? (
                     <>AED -{transaction.amount.toLocaleString()}</>
                   ) : transaction.transactionType === "income" ? (
@@ -56,10 +57,10 @@ export default function RecentTransactionsTable({ transactions }: RecentTransact
           </tbody>
         </table>
       </div>
-      
-      <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-        <p className="text-sm text-gray-600">
-          <span className="font-semibold text-gray-900">Total (last {list.length} transactions):</span>{" "}
+
+      <div className="border-t border-white/10 bg-white/[0.02] px-6 py-4">
+        <p className="text-sm text-slate-300">
+          <span className="font-semibold text-slate-50">Total (last {list.length} transactions):</span>{" "}
           AED {total.toLocaleString()}
         </p>
       </div>

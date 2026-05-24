@@ -34,22 +34,22 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="w-full border-b border-slate-200 bg-white/95 backdrop-blur md:sticky md:top-0 md:h-screen md:w-72 md:border-b-0 md:border-r md:border-slate-200">
+    <aside className="w-full border-b border-white/[0.06] bg-[#060a0f]/95 backdrop-blur md:sticky md:top-0 md:h-screen md:w-72 md:border-b-0 md:border-r md:border-white/[0.06]">
       <div className="px-4 py-4 sm:px-5 md:px-5 md:py-6">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-slate-400">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.38em] text-slate-400">
               Nexus
             </p>
-            <h1 className="mt-2 text-lg font-semibold text-slate-900">Executive Console</h1>
-            <p className="mt-1 text-sm text-slate-500">Private family CFO</p>
+            <h1 className="mt-2 text-[1.08rem] font-semibold tracking-tight text-slate-50">Executive Console</h1>
+            <p className="mt-1 text-sm text-slate-400">Private family office command</p>
           </div>
-          <div className="hidden rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700 md:inline-flex">
+          <div className="hidden rounded-full border border-emerald-400/30 bg-emerald-400/10 px-3 py-1 text-[11px] font-semibold text-emerald-100 md:inline-flex">
             Live
           </div>
         </div>
 
-        <nav className="mt-5 grid grid-cols-2 gap-2 md:grid-cols-1 md:gap-1.5">
+        <nav className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-1">
           {navItems.map((item) => {
             const active = isActive(item.href);
 
@@ -58,27 +58,27 @@ export default function Sidebar() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm transition-colors ${
+                className={`flex items-center gap-3 rounded-[18px] px-3.5 py-2.5 text-sm transition-all ${
                   active
-                    ? "bg-slate-900 text-white"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    ? "border border-white/[0.06] bg-[linear-gradient(180deg,rgba(16,24,39,0.98),rgba(10,14,22,0.98))] text-slate-50"
+                    : "text-slate-300 hover:bg-white/[0.02] hover:text-slate-100"
                 }`}
               >
-                <span className="text-base">{item.icon}</span>
-                <span className="truncate">{item.name}</span>
+                <span className="text-base text-slate-200">{item.icon}</span>
+                <span className="truncate font-medium tracking-[0.01em]">{item.name}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="mt-6 rounded-2xl bg-slate-50 px-4 py-3">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-slate-400">Snapshot</p>
+        <div className="mt-6 rounded-[24px] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(12,16,22,0.98),rgba(8,11,16,0.98))] px-4 py-4 ring-1 ring-white/[0.03]">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-slate-400">Operating window</p>
           <div className="mt-3 flex items-end justify-between gap-3">
             <div>
               <p className="text-xs text-slate-500">Decision window</p>
-              <p className="text-lg font-semibold text-slate-900">May 2026</p>
+              <p className="text-lg font-semibold tracking-tight text-slate-50">May 2026</p>
             </div>
-            <p className="text-sm font-semibold text-emerald-600">Stable</p>
+            <p className="text-sm font-semibold text-emerald-100">Stable</p>
           </div>
         </div>
       </div>

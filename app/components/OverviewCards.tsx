@@ -13,46 +13,39 @@ export default function OverviewCards({ transactions }: OverviewCardsProps) {
   const actualSpend = getTotalSpend(transactions);
   const budgetVariance = DEFAULT_MONTHLY_BUDGET - actualSpend;
   const isUnderOrOnBudget = budgetVariance >= 0;
-  const varianceColor = isUnderOrOnBudget ? "text-green-700" : "text-red-700";
-  const varianceBg = isUnderOrOnBudget ? "bg-green-100" : "bg-red-100";
-  const varianceSign = budgetVariance > 0 ? "+" : budgetVariance < 0 ? "-" : "";
-  const absVariance = Math.abs(budgetVariance);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-      {/* Monthly Budget Card */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <p className="text-gray-600 text-sm font-medium mb-2">Monthly Lifestyle Budget</p>
-        <p className="text-2xl font-bold text-gray-900">AED {DEFAULT_MONTHLY_BUDGET.toLocaleString()}</p>
-        <p className="text-xs text-gray-500 mt-2">Q2 2026 allocation</p>
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+      <div className="rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(13,18,28,0.96))] p-5">
+        <p className="text-[0.68rem] uppercase tracking-[0.3em] text-slate-400">Monthly lifestyle budget</p>
+        <p className="mt-4 text-[1.8rem] font-semibold tracking-tight text-slate-50">AED {DEFAULT_MONTHLY_BUDGET.toLocaleString()}</p>
+        <p className="mt-2 text-sm text-slate-300">Q2 2026 allocation</p>
       </div>
 
-      {/* Actual Spend Card */}
-      <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
-        <p className="text-gray-600 text-sm font-medium mb-2">Actual Lifestyle Spend</p>
-        <p className="text-2xl font-bold text-gray-900">AED {actualSpend.toLocaleString()}</p>
-        <p className="text-xs text-gray-500 mt-2">This month</p>
+      <div className="rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(13,18,28,0.96))] p-5">
+        <p className="text-[0.68rem] uppercase tracking-[0.3em] text-slate-400">Actual lifestyle spend</p>
+        <p className="mt-4 text-[1.8rem] font-semibold tracking-tight text-slate-50">AED {actualSpend.toLocaleString()}</p>
+        <p className="mt-2 text-sm text-slate-300">This month</p>
       </div>
 
-      {/* Budget Variance Card */}
-      <div className={`bg-white rounded-lg border p-6 shadow-sm ${varianceBg}`}>
-        <p className={`text-sm font-medium mb-2 ${varianceColor}`}>Budget Variance</p>
-        <p className={`text-2xl font-bold ${varianceColor}`}>{varianceSign}AED {absVariance.toLocaleString()}</p>
-        <p className={`text-xs mt-2 ${varianceColor}`}>{isUnderOrOnBudget ? "Under budget" : "Over budget"}</p>
+      <div className={`rounded-[24px] border p-5 ${isUnderOrOnBudget ? "border-emerald-400/30 bg-emerald-400/10" : "border-rose-400/30 bg-rose-400/10"}`}>
+        <p className="text-[0.68rem] uppercase tracking-[0.3em] text-slate-50">Budget variance</p>
+        <p className="mt-4 text-[1.8rem] font-semibold tracking-tight text-slate-50">
+          {budgetVariance >= 0 ? "+" : "-"}AED {Math.abs(budgetVariance).toLocaleString()}
+        </p>
+        <p className="mt-2 text-sm text-slate-100">{isUnderOrOnBudget ? "Under budget" : "Over budget"}</p>
       </div>
 
-      {/* Retirement Portfolio Card */}
-      <div className="bg-white rounded-lg border border-blue-200 bg-blue-50 p-6 shadow-sm">
-        <p className="text-blue-600 text-sm font-medium mb-2">Retirement Portfolio</p>
-        <p className="text-2xl font-bold text-blue-900">AED {financialSummary.retirementPortfolioValue.toLocaleString()}</p>
-        <p className="text-xs text-blue-500 mt-2">Current value</p>
+      <div className="rounded-[24px] border border-sky-400/20 bg-sky-400/10 p-5">
+        <p className="text-[0.68rem] uppercase tracking-[0.3em] text-sky-100">Retirement portfolio</p>
+        <p className="mt-4 text-[1.8rem] font-semibold tracking-tight text-slate-50">AED {financialSummary.retirementPortfolioValue.toLocaleString()}</p>
+        <p className="mt-2 text-sm text-sky-100">Current value</p>
       </div>
 
-      {/* Children Fund Card */}
-      <div className="bg-white rounded-lg border border-green-200 bg-green-50 p-6 shadow-sm">
-        <p className="text-green-600 text-sm font-medium mb-2">Children Fund</p>
-        <p className="text-2xl font-bold text-green-900">AED {financialSummary.childrenFundValue.toLocaleString()}</p>
-        <p className="text-xs text-green-500 mt-2">Current value</p>
+      <div className="rounded-[24px] border border-emerald-400/20 bg-emerald-400/10 p-5">
+        <p className="text-[0.68rem] uppercase tracking-[0.3em] text-emerald-100">Children fund</p>
+        <p className="mt-4 text-[1.8rem] font-semibold tracking-tight text-slate-50">AED {financialSummary.childrenFundValue.toLocaleString()}</p>
+        <p className="mt-2 text-sm text-emerald-100">Current value</p>
       </div>
     </div>
   );

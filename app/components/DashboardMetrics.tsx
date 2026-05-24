@@ -34,7 +34,7 @@ export default function DashboardMetrics() {
 
   return (
     <div className="space-y-8">
-      <TransactionForm onAddTransaction={handleAddTransaction} />
+      {/* TransactionForm removed from dashboard/home for premium landing */}
       <OverviewCards transactions={transactions} />
       <RecentTransactionsTable transactions={transactions} />
     </div>

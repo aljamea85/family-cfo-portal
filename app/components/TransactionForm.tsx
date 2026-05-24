@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { Transaction } from "@/lib/transactionModel";
 
 const categoriesByType: Record<Transaction["transactionType"], Transaction["category"][]> = {
@@ -92,50 +92,54 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
   };
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 mb-8">
+    <div className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(10,14,20,0.96))] p-6 sm:p-7">
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">Add Manual Transaction</h2>
-        <p className="text-sm text-gray-600 mt-2">Capture a new spend or income item and keep your budget updated.</p>
+        <p className="text-[0.68rem] uppercase tracking-[0.35em] text-slate-400">Add entry</p>
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-50">Manual transaction entry</h2>
+        <p className="mt-2 text-sm leading-7 text-slate-300">
+          Capture new spend or income and keep the operating view aligned in real time.
+        </p>
       </div>
+
       <form className="grid gap-4 lg:grid-cols-2" onSubmit={handleSubmit}>
         <label className="space-y-2">
-          <span className="text-sm font-medium text-gray-700">Date</span>
+          <span className="text-sm font-medium text-slate-200">Date</span>
           <input
             type="date"
             value={date}
             onChange={(event) => setDate(event.target.value)}
-            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-slate-50 outline-none transition focus:border-slate-400"
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-gray-700">Merchant</span>
+          <span className="text-sm font-medium text-slate-200">Merchant</span>
           <input
             value={merchant}
             onChange={(event) => setMerchant(event.target.value)}
-            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-slate-50 placeholder:text-slate-500 outline-none transition focus:border-slate-400"
             placeholder="e.g. Carrefour"
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-gray-700">Amount</span>
+          <span className="text-sm font-medium text-slate-200">Amount</span>
           <input
             type="number"
             step="0.01"
             value={amount}
             onChange={(event) => setAmount(event.target.value)}
-            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-slate-50 placeholder:text-slate-500 outline-none transition focus:border-slate-400"
             placeholder="AED 0.00"
           />
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-gray-700">Category</span>
+          <span className="text-sm font-medium text-slate-200">Category</span>
           <select
             value={category}
             onChange={(event) => setCategory(event.target.value as Transaction["category"])}
-            className="w-full rounded-lg border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-slate-50 outline-none transition focus:border-slate-400"
           >
             {categoriesByType[transactionType].map((value) => (
               <option key={value} value={value}>
@@ -146,11 +150,11 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-gray-700">Account</span>
+          <span className="text-sm font-medium text-slate-200">Account</span>
           <select
             value={account}
             onChange={(event) => setAccount(event.target.value)}
-            className="w-full rounded-lg border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-slate-50 outline-none transition focus:border-slate-400"
           >
             {accounts.map((value) => (
               <option key={value} value={value}>
@@ -161,7 +165,7 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
         </label>
 
         <label className="space-y-2">
-          <span className="text-sm font-medium text-gray-700">Transaction Type</span>
+          <span className="text-sm font-medium text-slate-200">Transaction Type</span>
           <select
             value={transactionType}
             onChange={(e) => {
@@ -169,7 +173,7 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
               setTransactionType(nextType);
               setCategory(categoriesByType[nextType][0] as Transaction["category"]);
             }}
-            className="w-full rounded-lg border-gray-300 bg-white shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-slate-50 outline-none transition focus:border-slate-400"
           >
             <option value="expense">Expense</option>
             <option value="income">Income</option>
@@ -180,25 +184,25 @@ export default function TransactionForm({ onAddTransaction }: TransactionFormPro
         </label>
 
         <label className="lg:col-span-2 space-y-2">
-          <span className="text-sm font-medium text-gray-700">Notes</span>
+          <span className="text-sm font-medium text-slate-200">Notes</span>
           <textarea
             value={notes}
             onChange={(event) => setNotes(event.target.value)}
-            className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-[18px] border border-white/10 bg-white/[0.03] px-4 py-3 text-slate-50 placeholder:text-slate-500 outline-none transition focus:border-slate-400"
             rows={3}
             placeholder="Optional notes"
           />
         </label>
 
         {error ? (
-          <div className="lg:col-span-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
+          <div className="lg:col-span-2 rounded-[18px] border border-rose-400/30 bg-rose-400/10 px-4 py-3 text-sm text-rose-100">
             {error}
           </div>
         ) : null}
 
         <button
           type="submit"
-          className="lg:col-span-2 inline-flex justify-center rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+          className="lg:col-span-2 inline-flex justify-center rounded-[18px] border border-slate-200/10 bg-slate-100 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-white"
         >
           Save transaction
         </button>

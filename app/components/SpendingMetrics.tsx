@@ -6,20 +6,31 @@ import { loadStoredTransactions } from "@/lib/transactionStorage";
 import { calculateBudgetMonthStats, DEFAULT_MONTHLY_BUDGET } from "@/lib/budgetEngine";
 import { Transaction } from "@/lib/transactionModel";
 
-export default function SpendingMetrics() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [hasLoaded, setHasLoaded] = useState(false);
+interface SpendingMetricsProps {
+  transactions?: Transaction[];
+}
+
+export default function SpendingMetrics({ transactions: externalTransactions }: SpendingMetricsProps) {
+  const [transactions, setTransactions] = useState<Transaction[]>(externalTransactions ?? []);
+  const [hasLoaded, setHasLoaded] = useState(Boolean(externalTransactions));
 
   useEffect(() => {
+    if (externalTransactions) {
+      setTransactions(externalTransactions);
+      setHasLoaded(true);
+      return;
+    }
+
     const stored = loadStoredTransactions();
     setTransactions(stored.length ? stored : recentTransactions);
     setHasLoaded(true);
-  }, []);
+  }, [externalTransactions]);
+
+  const resolvedTransactions = externalTransactions ?? transactions;
 
   const {
     monthlyBudget,
     actualSpent,
-    remainingBudget,
     daysElapsed,
     daysInMonth,
     dailyAllowedSpend,
@@ -28,11 +39,10 @@ export default function SpendingMetrics() {
     projectedOverspend,
     remainingSafeToSpend,
   } = hasLoaded
-    ? calculateBudgetMonthStats(transactions, DEFAULT_MONTHLY_BUDGET)
+    ? calculateBudgetMonthStats(resolvedTransactions, DEFAULT_MONTHLY_BUDGET)
     : {
         monthlyBudget: DEFAULT_MONTHLY_BUDGET,
         actualSpent: 0,
-        remainingBudget: DEFAULT_MONTHLY_BUDGET,
         daysElapsed: 0,
         daysInMonth: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate(),
         dailyAllowedSpend: 0,
@@ -42,92 +52,97 @@ export default function SpendingMetrics() {
         remainingSafeToSpend: DEFAULT_MONTHLY_BUDGET,
       };
 
-  // Unified budget variance logic
   const budgetVariance = monthlyBudget - actualSpent;
-  const isUnderOrOnBudget = budgetVariance >= 0;
-  const varianceColor = isUnderOrOnBudget ? "text-green-700" : "text-red-700";
-  const varianceBg = isUnderOrOnBudget ? "bg-green-100" : "bg-red-100";
-  const varianceSign = budgetVariance > 0 ? "+" : budgetVariance < 0 ? "-" : "";
-  const absVariance = Math.abs(budgetVariance);
+  const statusTone = budgetVariance >= 0
+    ? "border-emerald-400/30 bg-emerald-400/10 text-emerald-100"
+    : "border-rose-400/30 bg-rose-400/10 text-rose-100";
 
   return (
-    <div className="space-y-8">
-      <section className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div className="space-y-5">
+      <section className="rounded-[30px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(10,14,20,0.96))] p-6 sm:p-7">
+        <div className="flex flex-wrap items-start justify-between gap-5">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Budget Within Month</h1>
-            <p className="text-sm text-gray-600 mt-2">Monthly budget health based on current spend velocity.</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.35em] text-slate-400">Budget operating brief</p>
+            <h1 className="mt-3 text-2xl font-semibold tracking-tight text-slate-50">Budget control</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-300">
+              Current spend velocity, reserve capacity, and projected month-end posture are presented in one executive view.
+            </p>
           </div>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
-              <p className="text-xs uppercase tracking-wide text-slate-500">Budget</p>
-              <p className="mt-2 text-xl font-semibold text-slate-900">AED {monthlyBudget.toLocaleString()}</p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
-              <p className="text-xs uppercase tracking-wide text-slate-500">Spent</p>
-              <p className="mt-2 text-xl font-semibold text-slate-900">AED {actualSpent.toLocaleString()}</p>
-            </div>
-            <div className={`rounded-2xl p-4 text-sm font-semibold ${varianceBg} ${varianceColor}`}>
-              <p className="text-xs uppercase tracking-wide">Budget Variance</p>
-              <p className="mt-2 text-xl">
-                {varianceSign}AED {absVariance.toLocaleString()}
-              </p>
-              <p className="text-xs mt-1">
-                {isUnderOrOnBudget ? "Under budget" : "Over budget"}
-              </p>
-            </div>
-            <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
-              <p className="text-xs uppercase tracking-wide text-slate-500">Days elapsed</p>
-              <p className="mt-2 text-xl font-semibold text-slate-900">{daysElapsed}</p>
-            </div>
+          <span className={`inline-flex rounded-full border px-4 py-1.5 text-sm font-semibold ${statusTone}`}>
+            {budgetVariance >= 0 ? "Healthy" : "Under pressure"}
+          </span>
+        </div>
+
+        <div className="mt-6 grid gap-4 lg:grid-cols-4">
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+            <p className="text-[0.68rem] uppercase tracking-[0.3em] text-slate-400">Monthly budget</p>
+            <p className="mt-3 text-[1.7rem] font-semibold tracking-tight text-slate-50">AED {monthlyBudget.toLocaleString()}</p>
+          </div>
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+            <p className="text-[0.68rem] uppercase tracking-[0.3em] text-slate-400">Actual spend</p>
+            <p className="mt-3 text-[1.7rem] font-semibold tracking-tight text-slate-50">AED {actualSpent.toLocaleString()}</p>
+          </div>
+          <div className={`rounded-[22px] border p-4 ${budgetVariance >= 0 ? "border-emerald-400/30 bg-emerald-400/10" : "border-rose-400/30 bg-rose-400/10"}`}>
+            <p className="text-[0.68rem] uppercase tracking-[0.3em] text-slate-100">Budget variance</p>
+            <p className="mt-3 text-[1.7rem] font-semibold tracking-tight text-slate-50">
+              {budgetVariance >= 0 ? "+" : "-"}AED {Math.abs(budgetVariance).toLocaleString()}
+            </p>
+          </div>
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+            <p className="text-[0.68rem] uppercase tracking-[0.3em] text-slate-400">Days elapsed</p>
+            <p className="mt-3 text-[1.7rem] font-semibold tracking-tight text-slate-50">{daysElapsed}</p>
           </div>
         </div>
       </section>
 
-      <section className="grid gap-6 lg:grid-cols-3">
-        <div className="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm">
-          <p className="text-sm font-medium text-gray-700">Daily allowed spend</p>
-          <p className="mt-4 text-3xl font-semibold text-gray-900">AED {dailyAllowedSpend.toFixed(0)}</p>
-          <p className="text-sm text-gray-500 mt-2">Remaining days: {Math.max(0, 31 - daysElapsed)}</p>
+      <section className="grid gap-4 lg:grid-cols-3">
+        <div className="rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(13,18,28,0.96))] p-5">
+          <p className="text-sm text-slate-300">Daily allowed spend</p>
+          <p className="mt-3 text-[1.8rem] font-semibold tracking-tight text-slate-50">AED {dailyAllowedSpend.toFixed(0)}</p>
+          <p className="mt-2 text-sm text-slate-400">Remaining days: {Math.max(0, daysInMonth - daysElapsed)}</p>
         </div>
-        <div className="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm">
-          <p className="text-sm font-medium text-gray-700">Actual daily burn</p>
-          <p className="mt-4 text-3xl font-semibold text-gray-900">AED {actualDailyBurn.toFixed(0)}</p>
-          <p className="text-sm text-gray-500 mt-2">Based on current pace</p>
+        <div className="rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(13,18,28,0.96))] p-5">
+          <p className="text-sm text-slate-300">Actual daily burn</p>
+          <p className="mt-3 text-[1.8rem] font-semibold tracking-tight text-slate-50">AED {actualDailyBurn.toFixed(0)}</p>
+          <p className="mt-2 text-sm text-slate-400">Based on current pace</p>
         </div>
-        <div className="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm">
-          <p className="text-sm font-medium text-gray-700">Projected month-end spend</p>
-          <p className="mt-4 text-3xl font-semibold text-gray-900">AED {projectedMonthEndSpend.toFixed(0)}</p>
-          <p className="text-sm text-gray-500 mt-2">Projected {projectedOverspend >= 0 ? "overspend" : "underspend"}</p>
+        <div className="rounded-[24px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(13,18,28,0.96))] p-5">
+          <p className="text-sm text-slate-300">Projected month-end spend</p>
+          <p className="mt-3 text-[1.8rem] font-semibold tracking-tight text-slate-50">AED {projectedMonthEndSpend.toFixed(0)}</p>
+          <p className="mt-2 text-sm text-slate-400">Projected {projectedOverspend >= 0 ? "overspend" : "underspend"}</p>
         </div>
       </section>
 
-      <section className="rounded-2xl bg-white border border-gray-200 p-6 shadow-sm">
-        <div className="flex items-center justify-between">
+      <section className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,24,38,0.96),rgba(13,18,28,0.96))] p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900">Projected budget outcome</h2>
-            <p className="text-sm text-gray-600 mt-1">Review how current spend velocity affects the rest of the month.</p>
+            <p className="text-[0.68rem] uppercase tracking-[0.35em] text-slate-400">Projection</p>
+            <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-50">Month-end posture</h2>
+            <p className="mt-2 text-sm leading-7 text-slate-300">
+              Current spend velocity drives the remaining budget envelope and the reserve posture for the remainder of the month.
+            </p>
           </div>
-          <span className={`rounded-full px-3 py-1 text-sm font-semibold ${projectedOverspend > 0 ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}>
+          <span className={`rounded-full border px-4 py-1.5 text-sm font-semibold ${projectedOverspend > 0 ? "border-rose-400/30 bg-rose-400/10 text-rose-100" : "border-emerald-400/30 bg-emerald-400/10 text-emerald-100"}`}>
             {projectedOverspend > 0 ? "Over budget" : "On track"}
           </span>
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-2xl bg-slate-50 p-4">
-            <p className="text-sm text-gray-500">Projected overspend</p>
-            <p className="mt-2 text-xl font-semibold text-gray-900">AED {projectedOverspend.toFixed(0)}</p>
+
+        <div className="mt-6 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+            <p className="text-sm text-slate-300">Projected overspend</p>
+            <p className="mt-3 text-[1.35rem] font-semibold tracking-tight text-slate-50">AED {projectedOverspend.toFixed(0)}</p>
           </div>
-          <div className="rounded-2xl bg-slate-50 p-4">
-            <p className="text-sm text-gray-500">Safe-to-spend</p>
-            <p className="mt-2 text-xl font-semibold text-gray-900">AED {remainingSafeToSpend.toFixed(0)}</p>
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+            <p className="text-sm text-slate-300">Safe-to-spend</p>
+            <p className="mt-3 text-[1.35rem] font-semibold tracking-tight text-slate-50">AED {remainingSafeToSpend.toFixed(0)}</p>
           </div>
-          <div className="rounded-2xl bg-slate-50 p-4">
-            <p className="text-sm text-gray-500">Days left</p>
-            <p className="mt-2 text-xl font-semibold text-gray-900">{Math.max(0, daysInMonth - daysElapsed)}</p>
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+            <p className="text-sm text-slate-300">Days left</p>
+            <p className="mt-3 text-[1.35rem] font-semibold tracking-tight text-slate-50">{Math.max(0, daysInMonth - daysElapsed)}</p>
           </div>
-          <div className="rounded-2xl bg-slate-50 p-4">
-            <p className="text-sm text-gray-500">Monthly budget pace</p>
-            <p className="mt-2 text-xl font-semibold text-gray-900">AED {(monthlyBudget / daysInMonth).toFixed(0)}</p>
+          <div className="rounded-[22px] border border-white/10 bg-white/[0.03] p-4">
+            <p className="text-sm text-slate-300">Monthly budget pace</p>
+            <p className="mt-3 text-[1.35rem] font-semibold tracking-tight text-slate-50">AED {(monthlyBudget / daysInMonth).toFixed(0)}</p>
           </div>
         </div>
       </section>
